@@ -12,9 +12,13 @@ function getUserNumberInput(){
 function fields(){
     const rate = document.getElementById('btn2');
     var lines = '';
+    if ( getUserNumberInput() <= 0){
+        alert("invalid user input!")
+        return;
+    }
     for (let i=1; i<=getUserNumberInput(); i++){
-        lines += `<br>Weight <input type="text" id="weight${i}">  
-        Price <input type="text" id="price${i}"> <br> <br>`;
+        lines += `<br>Weight <input type="number" id="weight${i}">  
+        Price <input type="number" id="price${i}"> <br> <br>`;
     }
     document.getElementById("user-fields").innerHTML = lines;
     document.getElementById("rate").innerHTML = `<button id="btn2">Send</button> <br>`;
@@ -22,16 +26,25 @@ function fields(){
 }
 
 function value(){
+    weight = [];
+    price = [];
+    profit = [];
     var a;
     var b;
     for (let i=1; i<=getUserNumberInput(); i++){
-            a = parseInt(document.getElementById(`weight${i}`).value);
-            b= parseInt(document.getElementById(`price${i}`).value);
-            weight.push(a);
-            price.push(b);
-            profit.push(b/a);
+            a = parseFloat(document.getElementById(`weight${i}`).value);
+            b= parseFloat(document.getElementById(`price${i}`).value);
+            if( (a > 0 && b >0 ) ){
+                weight.push(a);
+                price.push(b);
+                profit.push(b/a);
+            }else{
+                alert("Invalid Input");
+                return ;
+            }
+
     }
-    document.getElementById("max").innerHTML =`<br>Maximum weight <input type="text" id="maxwt"> <br>`;
+    document.getElementById("max").innerHTML =`<br>Maximum weight <input type="number" id="maxwt"> <br>`;
     document.getElementById("done").innerHTML = `<br> <button id="btn3">Done</button>`;
     const done = document.getElementById('btn3');
     console.log("before sort profit " + profit);
@@ -63,7 +76,11 @@ function value(){
 }
 
 function knap(num1){
-    let maxWt = parseInt(document.getElementById(`maxwt`).value);
+    let maxWt = parseFloat(document.getElementById(`maxwt`).value);
+    if (maxWt<=0){
+        alert ("Invalid user input");
+        return;
+    }
     let maxProfit = 0
     for (let i = 0; i<getUserNumberInput(); i++){
         if(maxWt>0 && weight[i]<=maxWt){
